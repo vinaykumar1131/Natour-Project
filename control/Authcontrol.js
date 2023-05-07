@@ -33,7 +33,7 @@ exports.postuser = catchasnc(async (req, res, next) => {
   console.log('i call this');
   const postss = await mytour.create(req.body);
   const url = `${req.protocol}://${req.get('host')}/me`;
-  await userSignupEmail.userSignupEmail(postss.email, pos);
+  await userSignupEmail.userSignupEmail(postss.email, postss.name);
   createsendtoken(postss, res, 201);
 });
 exports.loginuser = catchasnc(async (req, res, next) => {

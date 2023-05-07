@@ -60,18 +60,18 @@ block  content
       each p in para 
         p.description__text=p
       
-  //- section.section-pictures
-  //-   each pic,i in data.images
-  //-     .picture-box
-  //-       img.picture-box__img(src=`/img/tours/${pic}`, alt=`${data.name} ${i+1}`, class=`picture-box__img--${i+1}`)
+  section.section-pictures
+    each pic,i in data.images
+      .picture-box
+        img.picture-box__img(src=`/img/tours/${pic}`, alt=`${data.name} ${i+1}`, class=`picture-box__img--${i+1}`)
 
-  //- section.section-map
-  //-   #map(data-locations=`${JSON.stringify(data.locations)}`)
+  section.section-map
+    #map(data-locations=`${JSON.stringify(data.locations)}`)
 
-  //- section.section-reviews
-  //-   .reviews
-  //-     each rev in data.review
-  //-       +reviewCard(rev)
+  section.section-reviews
+    .reviews
+      each rev in data.review
+        +reviewCard(rev)
 
   section.section-cta
     .cta

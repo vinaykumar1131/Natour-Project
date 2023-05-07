@@ -5,6 +5,7 @@
 /dist
 /node_modules
 /assets
+/.cache
 
 # Logs
 logs

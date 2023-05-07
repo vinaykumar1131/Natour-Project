@@ -57,6 +57,7 @@ exports.createBookingCheckOut = async (req, res, next) => {
   if (!tour && !user && !price) return next();
   await booking.create({ tour, user, price });
   const data = await users.findById({ _id: user });
-  await useremail.bookingemail(data.email, tour);
+  const tourdata = await Tour.findById({ _id: tour });
+  await useremail.bookingemail(data.email, tourdata.name);
   res.redirect(req.originalUrl.split('?')[0]);
 };
