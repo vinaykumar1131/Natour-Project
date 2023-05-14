@@ -5,10 +5,10 @@ const users = require('./models/makeuser');
 const reviews = require('./models/review');
 const { json } = require('express');
 mongoose
-  .connect(
-    'mongodb+srv://mongodbuse236:mongodbuse236@natour-tour.h3bssxo.mongodb.net/',
-    { useNewUrlParser: true, useunifiedtopology: true }
-  )
+  .connect(process.env.DATABASE_SERVER, {
+    useNewUrlParser: true,
+    useunifiedtopology: true,
+  })
   .then((con) => {
     console.log('yes you connected');
   });

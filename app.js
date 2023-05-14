@@ -19,10 +19,10 @@ const cors = require('cors');
 dotenv.config({ path: './config.env' });
 const app = express();
 mongose
-  .connect(
-    'mongodb://mongodbuse236:mongodbuse236@ac-mg9nnqs-shard-00-00.h3bssxo.mongodb.net:27017,ac-mg9nnqs-shard-00-01.h3bssxo.mongodb.net:27017,ac-mg9nnqs-shard-00-02.h3bssxo.mongodb.net:27017/?ssl=true&replicaSet=atlas-rcaia6-shard-0&authSource=admin&retryWrites=true&w=majority',
-    { useNewUrlParser: true, useunifiedtopology: true }
-  )
+  .connect(process.env.DATABASE_SERVER, {
+    useNewUrlParser: true,
+    useunifiedtopology: true,
+  })
   .then((con) => {
     console.log('yes you connected');
   });
