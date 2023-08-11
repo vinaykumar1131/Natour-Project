@@ -13,7 +13,6 @@ const createsendtoken = (users, res, status) => {
     expiresIn: new Date(Date.now() * 90 * 24 * 60 * 60 * 1000),
     httpOnly: true,
   };
-  console.log('i call the create token');
   if (process.env.NODE_ENV == 'production') setcookie.secure = true;
   res.cookie('jwt', token, setcookie);
   users.password = undefined;
@@ -30,9 +29,7 @@ const tokens = (id) => {
 };
 
 exports.postuser = catchasnc(async (req, res, next) => {
-  console.log(req.body);
   const postss = await mytour.create(req.body);
-  console.log(postss);
   const url = `${req.protocol}://${req.get('host')}/me`;
   await userSignupEmail.userSignupEmail(postss.email, postss.name);
   createsendtoken(postss, res, 201);
@@ -80,9 +77,9 @@ exports.protect = catchasnc(async (req, res, next) => {
       )
     );
   }
-  console.log('i call the protected');
   req.user = currentUser;
   res.locals.user = currentUser;
+  console.log("i am getting not getting the token");
   next();
 });
 
@@ -158,7 +155,6 @@ function filterobj(obj, allowObject) {
   return newobj;
 }
 exports.updateme = catchasnc(async (req, res, next) => {
-  console.log(req.file);
   if (req.body.password || req.body.conformpass) {
     return next(new Apperror('you have a other route for changing this', 401));
   }
@@ -200,6 +196,7 @@ exports.isLoggedIn = async (req, res, next) => {
   next();
 };
 exports.logoutuser = (req, res) => {
+  cons
   res.cookie('jwt', 'vinay', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,

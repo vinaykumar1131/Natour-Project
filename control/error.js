@@ -6,7 +6,6 @@ const handleCastErrorDB = err => {
 
 const handleDuplicateFieldsDB = err => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-  console.log(value);
 
   const message = `Duplicate field value: ${value}. Please use another value!`;
   return new AppError(message, 400);
@@ -25,25 +24,25 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError('Your token has expired! Please log in again.', 401);
 
-const sendErrorDev = (err, res,req) => {
-  if(req.originalUrl.startsWith('/api')){
-   return res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack
-  });
-}else{
+const sendErrorDev = (err, res, req) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      error: err,
+      message: err.message,
+      stack: err.stack
+    });
+  } else {
 
-  console.log("error from the development");
-  res.status(err.statusCode).render('error',{
-    title: 'Something went wrong!',
-    msg: err.message
-  })
-} 
+    console.log("error from the development");
+    res.status(err.statusCode).render('error', {
+      title: 'Something went wrong!',
+      msg: err.message
+    })
+  }
 };
 
-const sendErrorProd = (err, res,req) => {
+const sendErrorProd = (err, res, req) => {
   // Operational, trusted error: send message to client
   if (err.isOperational) {
     res.status(err.statusCode).json({
@@ -67,11 +66,11 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
   if (process.env.NODE_ENV === 'development') {
-   sendErrorDev(err,res,req);
+    sendErrorDev(err, res, req);
   } else {
     let error = { ...err };
-    error.message=err.message
-    sendErrorProd(error,res,req);
+    error.message = err.message
+    sendErrorProd(error, res, req);
   }
-  
+
 };

@@ -26,19 +26,17 @@ const upload = multer({
     fileFilter: multerFilter
 })
 exports.userPhoto = upload.single('photo');
-exports.resizephoto = (req, res, next)=> {
-    if (!req.file){
-        console.log("there is no file present")
+exports.resizephoto = (req, res, next) => {
+    if (!req.file) {
         return next();
     }
     req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
-    console.log("i am in resize photo")
-     sharp(req.file.buffer)
+    sharp(req.file.buffer)
         .resize(500, 500)
         .toFormat('jpeg')
         .jpeg({ quality: 90 })
         .toFile(`public/img/users/${req.file.filename}`)
-        next();
+    next();
 }
 const filterobj = (obj, ...objdet) => {
     const resobj = {};

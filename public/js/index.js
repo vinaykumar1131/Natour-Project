@@ -55,9 +55,10 @@ if (updateuser)
     updateset(form, 'user');
   });
 
-if (logoutbtn) logoutbtn.addEventListener('click', logout);
+if (logoutbtn) logoutbtn.addEventListener('click', logout());
 
 if (bookbtn) {
+  console.log("i am calling the free data")
   bookbtn.addEventListener('click', (e) => {
     e.target.textContent = 'processing.......';
     const { tourId } = e.target.dataset;

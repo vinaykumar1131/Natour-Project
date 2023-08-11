@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Tour=require('../models/model')
+const Tour = require('../models/model')
 const reviewSchema = new mongoose.Schema({
     review: {
         type: String,
@@ -45,37 +45,35 @@ reviewSchema.pre(/^find/, function (next) {
     })
     next();
 })
-reviewSchema.statics.calAverageRating=async function(tourid){
-        const stats =await this.aggregate([{
-            $match:{tour:tourid}
-        },
-            {
-                $group:{
-                    _id:'$tour',
-                    nRating:{$sum:1},
-                    nRatingAverage:{$avg:'$rating'}
-                }
-            }
-        ])
-        console.log(stats);
-    await Tour.findByIdAndUpdate(tourid,{
-        ratingsQuantity:stats[0].nRating,
-        ratingsAverage:stats[0].nRatingAverage
+reviewSchema.statics.calAverageRating = async function (tourid) {
+    const stats = await this.aggregate([{
+        $match: { tour: tourid }
+    },
+    {
+        $group: {
+            _id: '$tour',
+            nRating: { $sum: 1 },
+            nRatingAverage: { $avg: '$rating' }
+        }
+    }
+    ])
+    await Tour.findByIdAndUpdate(tourid, {
+        ratingsQuantity: stats[0].nRating,
+        ratingsAverage: stats[0].nRatingAverage
     })
 };
-reviewSchema.post('save',function(){
+reviewSchema.post('save', function () {
     this.constructor.calAverageRating(this.tour);
 });
-reviewSchema.pre(/^findOneAnd/,async function(next) {
+reviewSchema.pre(/^findOneAnd/, async function (next) {
     this.r = await this.findOne();
-    console.log(this.r);
     next();
-  });
+});
 // await this.findByIdAndUpdate(this.tour,{
-    // reviewSchema.post(/^findOneAnd/, async function() {
-    //     // await this.findOne(); does NOT work here, query has already executed
-    //     await this.r.constructor.calcAverageRatings(this.r.tour);
-    //   });
+// reviewSchema.post(/^findOneAnd/, async function() {
+//     // await this.findOne(); does NOT work here, query has already executed
+//     await this.r.constructor.calcAverageRatings(this.r.tour);
+//   });
 // })
 const review = mongoose.model('Review', reviewSchema);
 module.exports = review;

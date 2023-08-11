@@ -19,12 +19,11 @@ const cors = require('cors');
 dotenv.config({ path: './config.env' });
 const app = express();
 mongose
-  .connect(process.env.DATABASE_SERVER, {
+  .connect("mongodb://localhost:27017/shop", {
     useNewUrlParser: true,
     useunifiedtopology: true,
   })
   .then((con) => {
-    console.log('yes you connected');
   });
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));

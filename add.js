@@ -10,7 +10,6 @@ mongoose
     useunifiedtopology: true,
   })
   .then((con) => {
-    console.log('yes you connected');
   });
 const file = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours.json`, 'utf-8')

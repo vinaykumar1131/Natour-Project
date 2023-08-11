@@ -56,6 +56,7 @@ export const signup = async function (name, email, password, conformpass) {
 };
 
 export const logout = async () => {
+  console.log("i am gettingt ht ;pgom")
   try {
     const res = await axios({
       method: 'GET',
